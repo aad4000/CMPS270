@@ -8,26 +8,31 @@ struct Spell{
     char first;
     char last;
 
+    int used; //0 if false, 1 if true
+
     struct Spell * next;
 };
 
 void addToMap(struct Spell * spellMap[], struct Spell *node){
     int index = node->first - 'a'; // will return index in array.
-    
-    if(spellMap[index] == NULL)
+
+    if(spellMap[index] == NULL) 
         spellMap[index] = node;
     else {
         struct Spell *current = spellMap[index];
         while(current->next != NULL)
             current = current->next;
         current->next = node;
+        
     }
 }
 
-void readSpells(struct Spell * spellMap[], const char * filename, int *n){
+// reads from file all spells, and places them in a map accoridng to first letter
+// also prints the spells as desired.
+void readSpells(struct Spell * spellMap[], int tally[], const char * filename, int *n){
     FILE *file = fopen(filename, "r");
     
-    
+
     fscanf(file, "%d", n);
 
     for(int i = 0; i < *n; i++){
@@ -36,10 +41,19 @@ void readSpells(struct Spell * spellMap[], const char * filename, int *n){
         current->name = (char *) malloc( 18 * sizeof(char)); //assuming largest is 18
         fscanf(file, "%s", current->name);
 
+        printf("%s\t\t", current->name);
+        if(i % 5 == 0)
+            printf("\n");
+
         current->first = current->name[0];
         current->last = current->name[strlen(current->name)-1];
+        current->next = NULL;
+        current->used = 0;
+
+        tally[current->first - 'a']++;
 
         addToMap(spellMap, current);
+
     }
 
     fclose(file);
@@ -48,22 +62,3 @@ void readSpells(struct Spell * spellMap[], const char * filename, int *n){
 
 
 
-int main(){
-    int n;
-    struct Spell * spellMap[26];
-
-    readSpells(spellMap, "spells.txt", &n);
-
-
-    for (int i = 0; i < 26; i++) {
-        struct Spell *current = spellMap[i];
-        while (current != NULL) {
-            struct Spell *next = current->next;
-            free(current->name);
-            free(current);
-            current = next;
-        }
-    }
-
-    return 0;
-}
