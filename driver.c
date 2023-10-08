@@ -6,34 +6,34 @@
 
 int main(){
 
-    char player1 [100];
-    char player2 [100];
-    // assuming the names do not exceed 100 characters
+    char player1 [20];
+    char player2 [20];
+    // assuming the names do not exceed 20 characters
 
     printf("Player 1, enter your name: ");
     scanf("%s", player1);
     printf("Player 2, enter your name: ");
     scanf("%s", player2);
 
-    int n;
-    struct Spell * spellMap[26];
+    struct Spell * spellMap[26]; //array of 26 linked lists of spells, each entry starting with a certain letter
     int tally[26]; //keeps track of how many spells we have starting with each letter which are playable (not used yet)
     for(int i = 0; i < 26; i++){
         spellMap[i] = NULL;
         tally[i] = 0;
     }
 
-    readSpells(spellMap, tally, "spells.txt", &n);
-
+    readSpells(spellMap, tally, "spells.txt");
+    // reads from file all spells, and places them in the array accoridng to first letter
+    // also prints the spells as desired.
 
     srand(time(NULL));
     int coin = rand()%2; // 0 for player 1, and 1 for player 2
 
-    int c = 0;
-    char * prev = (char *) malloc(18 * sizeof(char));
+    int c = 0; //counter for how many turns have been played
+    char * prev = (char *) malloc(30 * sizeof(char)); //assuming 30 is largest
 
     while(1){
-        int turn = ((c + coin) % 2);
+        int turn = ((c + coin) % 2); //calculates whose turn it is: 0 for player 1, 1 for player 2.
 
         if(!canPlay(spellMap, tally, prev) && c!=0){
             //Player loses because he has no more possible moves.
@@ -55,7 +55,7 @@ int main(){
         else 
             printf("\n%s's turn. Enter a spell: ", player2);
         
-        char word [18]; //again, assuming longest word is of 18 characters
+        char word [30]; //again, assuming longest word is of 30 characters
         scanf("%s", word);
 
         int t = isLegal(spellMap, tally, prev, word, c);
@@ -81,7 +81,7 @@ int main(){
             break;
         }
 
-        strcpy(prev, word);
+        strcpy(prev, word); //store copy of word in prev to check conditions next turn
         c++;
     }
 
