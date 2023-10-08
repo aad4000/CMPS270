@@ -86,7 +86,7 @@ int main(){
     }
 
 
-
+    free(prev);
     for (int i = 0; i < 26; i++) {
         struct Spell *current = spellMap[i];
         while (current != NULL) {
