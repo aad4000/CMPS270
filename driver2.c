@@ -7,8 +7,6 @@
 int main(){
 
     int DIFFICULTY = 3; //0 is random, 1 is easy, 2 is medium, 3 is hard, ...
-    printf("Enter Difficulty (0: random, 1: easy, 2: medium, 3: hard): ");
-    scanf("%d", DIFFICULTY);
 
     char player1 [20];
     // assuming the name does not exceed 20 characters
