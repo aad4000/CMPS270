@@ -1,0 +1,28 @@
+#checking.c
+
+int canPlay(int tally[], char *last);
+requires: last should be pointing to the first character of a string, and tally should be an array of size 26.
+effects: returns 0 if the value of tally at the calculated index (equivalent to the difference between 'a' and the last letter of the string) is 0; otherwise, returns 1.
+
+int isLegal(struct Spell *spellMap[], int tally[], char *last, char *played, int round);
+requires: spellMap should be an array of size 26.
+          tally should be an array of size 26.
+          last should be pointing to the first character of a string or be NULL.
+          played should be pointing to the first character of a string.
+          round should be a non-negative integer.
+effects: returns an integer that indicates the legality of the played word:
+        -1 if the current word does not match the last word's last character.
+        -2 if the current word is not found in the spell map.
+        -3 if the current word has already been used in a previous round.
+         1 if the word is legal, updates the tally, and updates the spell's used field to 1.
+
+#Spellmap.c
+
+void addToMap(struct Spell *spellMap[], struct Spell *node);
+requires: spellMap should be an array of size 26, and node should be non-NULL.
+effects: Adds the Spell at the index (calculated based on the first letter of the spell's word) in the spellMap.
+
+void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
+requires: spellMap and tally should be arrays of size 26.
+          filename pointer should point to a string that is a valid name of a file in the directory.
+effects: Reads through the file, creating a struct Spell instance for every word encountered, initializes its fields, increments the tally array accordingly, and adds it to spellMap. 
