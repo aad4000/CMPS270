@@ -67,7 +67,7 @@ int main(){
             else{
                 for(char i = 'a'; i <= 'z'; i++){
                     if(tally[i] != 0){
-                        if(playBot(spellMap, tally, &i, DIFFICULTY, word) != -1){
+                        if(playBot(spellMap, tally, &i, DIFFICULTY, word) != -1){ //choose a word which does not make you lose 
                             printf("%s\n", word);
                             break;
                         }

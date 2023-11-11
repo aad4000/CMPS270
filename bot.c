@@ -19,13 +19,18 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
         int index = prev[strlen(prev) - 1] - 'a';
 
         int r = rand();
-        r = r % tally[index];
+        r = r % (tally[index]);
+        printf("%d %d\n", tally[index], r);
         struct Spell *current = spellMap[index];
-        for(int i = 0; i < r; i++){
-            if(current->used == 1) //don't count the unavailable words
-                i--;
+        int i = 0;
+        while(current->used == 1){ //skip the used words in the beginning (for the case r = 0)
             current = current->next;
         }
+        while(i != r){
+            if(current->used != 1) //don't count the unavailable words
+                i++;
+            current = current->next;
+        }        
         strcpy(word, current->name);
         return 0;
     }
