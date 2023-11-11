@@ -6,6 +6,8 @@
 
 int main(){
 
+    int DIFFICULTY = 3; //0 is random, 1 is easy, 2 is medium, 3 is hard, ...
+
     char player1 [20];
     // assuming the name does not exceed 20 characters
 
@@ -25,9 +27,8 @@ int main(){
     // also prints the spells as desired.
 
     srand(time(NULL));
-    //int coin = rand()%2; // 0 for player 1, and 1 for player 2 (bot)
-    int coin = 0;
-
+    int coin = rand()%2; // 0 for player 1, and 1 for player 2 (bot)
+    
     int c = 0; //counter for how many turns have been played
     char * prev = (char *) malloc(30 * sizeof(char)); //assuming 30 is largest 
 
@@ -56,8 +57,22 @@ int main(){
         }
         else {
             printf("\nBot's turn. Spell used: ");
-            strcpy(word, playBot(spellMap, tally, prev, 2));
-            printf("%s\n", word);
+            if(c > 0){
+                strcpy(word, playBot(spellMap, tally, prev, DIFFICULTY));
+                printf("%s\n", word);
+            }
+            else{
+                for(char i = 'a'; i <= 'z'; i++){
+                    if(tally[i] != 0){
+                        char * s = playBot(spellMap, tally, &i, DIFFICULTY);
+                        if(strcmp(s, "RESIGN") != 0){
+                            strcpy(word, s);
+                            printf("%s\n", word);
+                            break;
+                        }
+                    }
+                }
+            }            
         }
 
         int t = isLegal(spellMap, tally, prev, word, c);

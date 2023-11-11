@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "checking.c"
+#include <time.h>
 
 struct Option{
     char * word;
@@ -11,6 +12,19 @@ struct Option{
 };
 
 char* playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty){
+    if(difficulty == 0){ //return randomly
+        int index = prev[strlen(prev) - 1] - 'a';
+
+        int r = rand();
+        r = r % tally[index];
+        struct Spell *current = spellMap[index];
+        for(int i = 0; i < r; i++){
+            if(current->used == 1) //don't count the unavailable words
+                i--;
+            current = current->next;
+        }
+        return current->name;
+    }
     tally[prev[strlen(prev) - 1]]--; //because we know the word to be played will start with this character
 
     struct Option options[26]; //we will have at most 26 words to choose from, each ending with a different character
