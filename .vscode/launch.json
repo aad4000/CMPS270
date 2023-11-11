@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Desktop/Cmps 270/project/phase1/projectp/CMPS270",
-      "program": "c:/Desktop/Cmps 270/project/phase1/projectp/CMPS270/build/Debug/outDebug",
+      "cwd": "c:/Desktop/Cmps 270/project/phase2/CMPS270",
+      "program": "c:/Desktop/Cmps 270/project/phase2/CMPS270/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

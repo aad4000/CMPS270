@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "spellmap.c"
+#include "spellmap.h"
+
 
 // returns 1 if player has at least one spell he can play
 // returns 0 if the player is out of options (loses)

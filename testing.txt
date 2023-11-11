@@ -1,41 +1,149 @@
 #checking.c
 
-int canPlay(int tally[], char *last);
+Function: int canPlay(int tally[], char *last);
+
 Test Case 1: Last character of <last> is between 'a' and 'z' and tally is filled with all zeros
-      Input: tally = [0, 0, ..., 0] , last = "easy"
-      Output: returns 0
+
+Input: tally = [0, 0, ..., 0], last = "easy"
+Output: returns 0
 
 Test Case 2: Last character of <last> is 'a' and tally is filled with all non-negative integers
-      Input: tally = [1, 2, ..., 26] , last = "a"
-      Output: returns 1
+
+Input: tally = [1, 2, ..., 26], last = "a"
+Output: returns 1
 
 Test Case 3: Last character of <last> is 'z' and tally is filled with all non-negative integers
-      Input: tally = [1, 2, ..., 26] , last = "z"
-      Output: returns 1
 
-
-int isLegal(struct Spell *spellMap[], int tally[], char *last, char *played, int round);
+Input: tally = [1, 2, ..., 26], last = "z"
+Output: returns 1
+Function: int isLegal(struct Spell *spellMap[], int tally[], char *last, char *played, int round);
 
 #Spellmap.c
 
-void addToMap(struct Spell *spellMap[], struct Spell *node);
+Function: void addToMap(struct Spell *spellMap[], struct Spell *node);
 
 Test Case 1: Adding a node starting with letter 'a' to an empty spellMap
-      Input: spellMap = [NULL, NULL, ..., NULL] and node->first set to 'a'
-      Expected Result: spellMap[0] should be set to node.
+
+Input: spellMap = [NULL, NULL, ..., NULL] and node->first set to 'a'
+Expected Result: spellMap[0] should be set to node.
 
 Test Case 2: Adding a node starting with letter 'z' to an index with an already existing node in the spellMap
-      Input: spellMap = [NULL, NULL, NULL, ..., n25] and node->first set to 'z'
-      Expected Result: spellMap[25]->next should be set to node.
+
+Input: spellMap = [NULL, NULL, NULL, ..., n25] and node->first set to 'z'
+Expected Result: spellMap[25]->next should be set to node.
 
 Test Case 3: Adding a node starting with letter 'c' to an index with an already existing list of 3 nodes in the spellMap
-      Input: spellMap = [n1, n2, n3, ..., NULL] and node->first set to 'c'
-      Expected Result: spellMap[2]->next->next->next-> should be set to node.
 
+Input: spellMap = [n1, n2, n3, ..., NULL] and node->first set to 'c'
+Expected Result: spellMap[2]->next->next->next-> should be set to node.
+Function: void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
 
+Test Case 1: Empty spell file.
 
-void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
+Setup: Create an empty file named "empty_spells.txt".
+Input File Content: The file is empty.
+Expected Outcome: spellMap should have all NULL entries, and tally should be an array of zeros.
 
-#driver.c
+Test Case 2: File with a single spell.
 
-int main();
+Setup: Create a file named "single_spell.txt" with one spell.
+Input File Content: 1\naccio\n (First line is the count, followed by the spell).
+Expected Outcome: spellMap should have one non-NULL entry at index corresponding to 'a', and tally should have 1 at index 0 and 0 for other entries.
+
+Test Case 3: File with multiple spells, including repeating first characters.
+
+Setup: Create a file named "multiple_spells.txt" with multiple spells.
+Input File Content: 5\naccio\nalohomora\nexpelliarmus\nlumos\nwingardiumLeviosa\n
+Expected Outcome: spellMap should have non-NULL entries at indices corresponding to 'a', 'e', 'l', 'w', and tally should reflect the correct counts for these starting letters.
+
+driver.c:
+
+Test 1: Proper Initialization and Reading from File
+
+Objective: Ensure that spells are correctly read from the file and that the spellMap and tally are properly initialized.
+Procedure: Start the game and check if the spells from "spells.txt" are correctly read and printed.
+Expected Outcome: The spells listed in "spells.txt" should be displayed correctly, and the tally should reflect the correct counts of spells for each starting letter.
+
+Test 2: Player Input and Turn Alternation
+
+Objective: Test that the game correctly alternates between players and accepts valid spell inputs.
+Procedure: Run the game, enter valid spells alternately for both players.
+Expected Outcome: The game should alternate turns between players, and each valid spell should be accepted.
+
+Test 3: Input Validation and Error Handling
+
+Objective: Verify that the game handles invalid inputs correctly.
+Procedure: During the game, input invalid spells (e.g., not on the list, already used, or not starting with the last letter of the previous spell).
+Expected Outcome: The game should reject invalid spells and prompt for a valid spell.
+
+Test 4: Winning Conditions
+
+Objective: Ensure the game correctly identifies the winning conditions.
+Procedure: Play the game to a point where a player cannot make a valid move.
+Expected Outcome: The game should correctly identify the player who cannot play as the loser.
+
+Test 5: Memory Management
+
+Objective: Check for memory leaks and proper memory management.
+Procedure: Run the game with tools like Valgrind (Linux) to detect memory leaks. Play the game to completion to ensure all dynamic memory is freed.
+Expected Outcome: There should be no memory leaks, and all allocated memory should be properly freed at the end of the game.
+
+bot.c:
+
+Function: int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty, char * word)
+
+Test Case 1: Difficulty Level 0 (Random Choice)
+
+Setup: Initialize spellMap with several spells, some of which have been used (used = 1), and others not. Initialize tally accordingly.
+Input: difficulty = 0, prev points to a valid spell.
+Expected Outcome: playBot should return 0, indicating an undetermined outcome. The chosen word should be random among the available options.
+
+Test Case 2: Winning Move Available
+
+Setup: Create a scenario where the bot has a winning move (e.g., only one valid spell remains, and its last letter leads to no available spells).
+Input: Appropriate difficulty level, prev set to lead to the winning move.
+Expected Outcome: playBot should return 1, indicating the bot will win. The chosen word should be the winning spell.
+
+Test Case 3: No Winning Move (Bot Will Lose)
+
+Setup: Set up spellMap such that no matter what spell the bot chooses, the player will have a winning move next.
+Input: Higher difficulty level, prev set to a challenging position.
+Expected Outcome: playBot should return -1, indicating the bot will lose. It might choose any available spell.
+
+Test Case 4: Recursive Depth Search (Higher Difficulty)
+
+Setup: A more complex spell map with multiple layers of choices.
+Input: difficulty > 1, set prev to a position that requires looking ahead more than one move.
+Expected Outcome: The outcome depends on the setup, but playBot should demonstrate a deeper search, avoiding moves that would lead to a loss in subsequent rounds.
+
+driver2.c:
+
+Test 1: File Reading and Spell Map Initialization
+
+Objective: Ensure the game correctly reads spells from the file and initializes the spell map.
+Procedure: Run the game with a known spells file. Verify that the spells are correctly read and stored in spellMap.
+Expected Outcome: The game prints the loaded spells correctly.
+
+Test 2: Player and Bot Gameplay Interaction
+
+Objective: Test the game flow between the player and the bot.
+Procedure: Run the game and play a few rounds, alternating between the player and the bot. Use different difficulty levels for the bot.
+Expected Outcome: The game correctly alternates turns between the player and the bot. The bot's moves should align with its difficulty level.
+
+Test 3: Winning and Losing Conditions
+
+Objective: Verify that the game correctly identifies winning and losing conditions.
+Procedure: Play the game to completion. Try scenarios where the player wins, the bot wins, and edge cases (e.g., the first player runs out of moves).
+Expected Outcome: The game should correctly identify the winner and loser based on the rules.
+
+Test 4: Input Validation
+
+Objective: Ensure that the game properly validates player inputs.
+Procedure: During the player's turn, enter invalid spells (not in the list, already used spells, or spells not starting with the required letter).
+Expected Outcome: The game should not accept invalid spells and should prompt the player to re-enter a valid spell.
+
+Test 5: Memory Management and Error Handling
+
+Objective: Check for memory leaks or errors during the game.
+Procedure: Run the game with a tool like Valgrind (if on Linux) to check for memory leaks. Also, test with an invalid file name or a malformed spells file.
+Expected Outcome: The game should not have memory leaks and should handle file errors gracefully.

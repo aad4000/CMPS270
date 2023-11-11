@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "checking.c"
 #include <time.h>
+#include "bot.h"
 
 struct Option{
     char * word;

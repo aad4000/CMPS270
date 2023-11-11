@@ -1,17 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-struct Spell{
-    char * name; 
-
-    char first; //first letter of spell
-    char last;  // last letter of spell
-
-    int used; //0 if false, 1 if true
-
-    struct Spell * next;
-};
+#include "spellmap.h"
 
 void addToMap(struct Spell * spellMap[], struct Spell *node){
     int index = node->first - 'a'; // will return index in the array.

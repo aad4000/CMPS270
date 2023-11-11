@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "bot.c"
+#include "spellmap.h"  // Updated to include canPlay and isLegal declarations
+#include "bot.h"
 #include <time.h>
-
 int main(){
 
     int DIFFICULTY = 3; //0 is random, 1 is easy, 2 is medium, 3 is hard, ...
