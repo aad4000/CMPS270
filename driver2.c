@@ -58,15 +58,13 @@ int main(){
         else {
             printf("\nBot's turn. Spell used: ");
             if(c > 0){
-                strcpy(word, playBot(spellMap, tally, prev, DIFFICULTY));
+                playBot(spellMap, tally, prev, DIFFICULTY, word);
                 printf("%s\n", word);
             }
             else{
                 for(char i = 'a'; i <= 'z'; i++){
                     if(tally[i] != 0){
-                        char * s = playBot(spellMap, tally, &i, DIFFICULTY);
-                        if(strcmp(s, "RESIGN") != 0){
-                            strcpy(word, s);
+                        if(playBot(spellMap, tally, &i, DIFFICULTY, word) != -1){
                             printf("%s\n", word);
                             break;
                         }
