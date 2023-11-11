@@ -1,0 +1,41 @@
+#checking.c
+
+int canPlay(int tally[], char *last);
+Test Case 1: Last character of <last> is between 'a' and 'z' and tally is filled with all zeros
+      Input: tally = [0, 0, ..., 0] , last = "easy"
+      Output: returns 0
+
+Test Case 2: Last character of <last> is 'a' and tally is filled with all non-negative integers
+      Input: tally = [1, 2, ..., 26] , last = "a"
+      Output: returns 1
+
+Test Case 3: Last character of <last> is 'z' and tally is filled with all non-negative integers
+      Input: tally = [1, 2, ..., 26] , last = "z"
+      Output: returns 1
+
+
+int isLegal(struct Spell *spellMap[], int tally[], char *last, char *played, int round);
+
+#Spellmap.c
+
+void addToMap(struct Spell *spellMap[], struct Spell *node);
+
+Test Case 1: Adding a node starting with letter 'a' to an empty spellMap
+      Input: spellMap = [NULL, NULL, ..., NULL] and node->first set to 'a'
+      Expected Result: spellMap[0] should be set to node.
+
+Test Case 2: Adding a node starting with letter 'z' to an index with an already existing node in the spellMap
+      Input: spellMap = [NULL, NULL, NULL, ..., n25] and node->first set to 'z'
+      Expected Result: spellMap[25]->next should be set to node.
+
+Test Case 3: Adding a node starting with letter 'c' to an index with an already existing list of 3 nodes in the spellMap
+      Input: spellMap = [n1, n2, n3, ..., NULL] and node->first set to 'c'
+      Expected Result: spellMap[2]->next->next->next-> should be set to node.
+
+
+
+void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
+
+#driver.c
+
+int main();
