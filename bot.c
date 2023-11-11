@@ -59,20 +59,22 @@ char* playEasy(struct Spell * spellMap[], int tally[], char * prev){
             break;
         }
     }
-
+    
     for(int i = 0; i < usedEntries; i++){
         int index2 = optionsSorted[i].character - 'a';
         struct Spell *current = spellMap[index2];
         int canLose = 0; //1 means i CAN lose on the next turn immediately, 0 means my move is safe
         while(current != NULL){
             if(current->used == 0){ 
-                if(tally[current->last-'a'] == 0) //opponent has a winning move
+                if(tally[current->last-'a'] == 0){ //opponent has a winning move
                     canLose = 1;
                     break;
+                }
             }
             current = current->next;
-        }
+        }    
         if(canLose == 0)
-            return options[i].word;
+            return optionsSorted[i].word;
     }
+    return "RESIGN"; //bot cannot win.
 }

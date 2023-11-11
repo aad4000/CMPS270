@@ -57,7 +57,7 @@ int main(){
         else {
             printf("\nBot's turn. Spell used: ");
             strcpy(word, playEasy(spellMap, tally, prev));
-            printf("%s", word);
+            printf("%s\n", word);
         }
 
         int t = isLegal(spellMap, tally, prev, word, c);
