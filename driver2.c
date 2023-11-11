@@ -56,7 +56,7 @@ int main(){
         }
         else {
             printf("\nBot's turn. Spell used: ");
-            strcpy(word, playEasy(spellMap, tally, prev));
+            strcpy(word, playBot(spellMap, tally, prev, 2));
             printf("%s\n", word);
         }
 
