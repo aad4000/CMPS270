@@ -1,3 +1,5 @@
+The strategies we used for testing the following functions where: Systematic Testing on Partitioned Input Domain.
+
 #checking.c
 
 Function: int canPlay(int tally[], char *last);
@@ -5,18 +7,56 @@ Function: int canPlay(int tally[], char *last);
 Test Case 1: Last character of <last> is between 'a' and 'z' and tally is filled with all zeros
 
 Input: tally = [0, 0, ..., 0], last = "easy"
-Output: returns 0
+Expected Outcome: returns 0
 
-Test Case 2: Last character of <last> is 'a' and tally is filled with all non-negative integers
+Test Case 2: Last character of <last> is 'a' and tally is filled with all non-negative integers (Edge Case)
 
 Input: tally = [1, 2, ..., 26], last = "a"
-Output: returns 1
+Expected Outcome: returns 1
 
-Test Case 3: Last character of <last> is 'z' and tally is filled with all non-negative integers
+Test Case 3: Last character of <last> is 'z' and tally is filled with all non-negative integers (Edge Case)
 
 Input: tally = [1, 2, ..., 26], last = "z"
-Output: returns 1
+Expected Outcome: returns 1
+
 Function: int isLegal(struct Spell *spellMap[], int tally[], char *last, char *played, int round);
+
+Test Case 1: Valid Play
+
+Input: spellMap = an array with valid spell entries.
+       tally = an array with non-zero frequencies for all characters.
+       last = a string with 'a' as the last character.
+       played = a string starting with 'a'.
+       round = 1
+Expected Outcome: The function should return 1, indicating a successful and legal play.
+
+Test Case 2: Invalid First Letter Mismatch
+
+Input:
+      spellMap = an array with valid spell entries.
+      tally = an array with non-zero frequencies for all characters.
+      last = a string with 'a' as the last character.
+      played = a string ending with 'l'. 
+      round = 1
+Expected Outcome: The function should return -1, indicating an invalid play due to the first letter mismatch.
+
+Test Case 3: Invalid Spell Not in List
+
+Input: spellMap = an array with valid spell entries.
+       tally = an array with non-zero frequencies for all characters.
+       last = a string with 'b' as the last character.
+       played = a string that is not present in spallMap.
+       round = 1
+Expected Outcome: The function should return -2, indicating an invalid play because the spell is not in the list.
+
+Test Case 4: Invalid Repeat Spell
+
+Input: spellMap = an array with valid spell entries.
+       tally = an array with non-zero frequencies for all characters.
+       last = a string played in round 1. (ex: "accio")
+       played = a string "accio"
+       round = 2
+Expected Outcome: The function should return -3, indicating an invalid play because the spell was previously used.
 
 #Spellmap.c
 
@@ -25,17 +65,18 @@ Function: void addToMap(struct Spell *spellMap[], struct Spell *node);
 Test Case 1: Adding a node starting with letter 'a' to an empty spellMap
 
 Input: spellMap = [NULL, NULL, ..., NULL] and node->first set to 'a'
-Expected Result: spellMap[0] should be set to node.
+Expected Outcome: spellMap[0] should be set to node.
 
 Test Case 2: Adding a node starting with letter 'z' to an index with an already existing node in the spellMap
 
 Input: spellMap = [NULL, NULL, NULL, ..., n25] and node->first set to 'z'
-Expected Result: spellMap[25]->next should be set to node.
+Expected Outcome: spellMap[25]->next should be set to node.
 
 Test Case 3: Adding a node starting with letter 'c' to an index with an already existing list of 3 nodes in the spellMap
 
 Input: spellMap = [n1, n2, n3, ..., NULL] and node->first set to 'c'
-Expected Result: spellMap[2]->next->next->next-> should be set to node.
+Expected Outcome: spellMap[2]->next->next->next-> should be set to node.
+
 Function: void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
 
 Test Case 1: Empty spell file.
@@ -99,18 +140,16 @@ Input: difficulty = 0, prev points to a valid spell.
 Expected Outcome: playBot should return 0, indicating an undetermined outcome. The chosen word should be random among the available options.
 
 Test Case 2: Winning Move Available
-Scenario Setup:
 
+Scenario Setup:
 Suppose there are only two spells left: "lumos" and "stupify". "lumos" ends with 's', but there are no spells starting with 's' left. "stupify" ends with 'y', and there are no spells starting with 'y'.
 spellMap and tally reflect this setup.
-Input:
 
-difficulty: any (since it's a clear winning move).
-prev: points to a spell ending with 'l', leading to "lumos".
-Expected Outcome:
+Input: difficulty = any (since it's a clear winning move).
+       prev = points to a spell ending with 'l', leading to "lumos".
 
-playBot should choose "lumos", as it's a winning move.
-The function should return 1, indicating the bot will win.
+Expected Outcome: playBot should choose "lumos", as it's a winning move.
+                  The function should return 1, indicating the bot will win.
 
 // Assume spellMap and tally are set up for the above scenario.
 char prev[] = "spell"; // Last spell ends with 'l'
@@ -119,18 +158,16 @@ int result = playBot(spellMap, tally, prev, 2, word); // Assuming difficulty 2 f
 // Check if result == 1 and strcmp(word, "lumos") == 0
 
 Test Case 3: No Winning Move (Bot Will Lose)
-Scenario Setup:
 
+Scenario Setup:
 Imagine a scenario where every spell the bot can choose will allow the player to win in the next turn. For example, the only spells left are "alohomora" and "reducto". Choosing either leads to a spell starting with 'a' or 'r', both of which are available for the player to win next.
 spellMap and tally are set to reflect this setup.
-Input:
 
-difficulty: higher (e.g., 2 or 3), to ensure the bot looks ahead.
-prev: set to lead to either "alohomora" or "reducto".
-Expected Outcome:
-
-playBot should return -1, indicating it cannot avoid losing.
-The chosen word will be either "alohomora" or "reducto", but the exact choice depends on the internal logic and may be random.
+Input: difficulty = higher (e.g., 2 or 3), to ensure the bot looks ahead.
+       prev = set to lead to either "alohomora" or "reducto".
+       
+Expected Outcome: playBot should return -1, indicating it cannot avoid losing.
+                  The chosen word will be either "alohomora" or "reducto", but the exact choice depends on the internal logic and may be random.
 
 // Assume spellMap and tally are set up for the above scenario.
 char prev[] = "spell"; // Set appropriately to lead to the losing scenario
