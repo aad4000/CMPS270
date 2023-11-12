@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "spellmap.h"
+#include <time.h>
+#include "checking.c"
 
 int main(){
 
@@ -33,7 +34,7 @@ int main(){
     while(1){
         int turn = ((c + coin) % 2); //calculates whose turn it is: 0 for player 1, 1 for player 2.
 
-        if(!canPlay(spellMap, tally, prev) && c!=0){
+        if(!canPlay(tally, prev) && c!=0){
             //Player loses because he has no more possible moves.
             char * winner, *loser;
             if(turn == 0){

@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "spellmap.c"  // Updated to include canPlay and isLegal declarations
 #include "bot.c"
 #include "checking.c"
+#include "spellmap.c"
 #include <time.h>
 
 int main(){
 
-    int DIFFICULTY = 1; //0 is random, 1 is easy, 2 is medium, 3 is hard, ...
+    int DIFFICULTY = 3; //0 is random, 1 is easy, 2 is medium, 3 is hard, ...
 
     int RandomWins = 0;
     int LostByNoMoreMoves = 0;
@@ -20,7 +20,7 @@ int main(){
     int WonByIllegalMoveWordUnavailable = 0;
     int WonByIllegalMoveWordAlreadyUsed = 0;
     int WonByIllegalMoveWordsDoNotMatch = 0;
-    int TotalGames = 10000;
+    int TotalGames = 100;
     srand(time(NULL));
     int coin = rand()%2; // 0 for player 1, and 1 for player 2 (bot);
 
@@ -31,7 +31,7 @@ int main(){
             spellMap[i] = NULL;
             tally[i] = 0;
         }
-        readSpells(spellMap, tally, "randomwords.txt");
+        readSpells(spellMap, tally, "spells.txt");
         // reads from file all spells, and places them in the array accoridng to first letter
         // also prints the spells as desired.
 
@@ -44,7 +44,7 @@ int main(){
 
             int turn = ((c + coin) % 2); //calculates whose turn it is: 0 for player 1, 1 for player 2.
 
-            if(!canPlay(spellMap, tally, prev) && c!=0){
+            if(!canPlay(tally, prev) && c!=0){
                 //Player loses because he has no more possible moves.
                 char * winner, *loser;
                 if(turn == 0){
