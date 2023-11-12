@@ -24,9 +24,9 @@ The function playBot() takes the following arguments:
 
     - spellMap = An array of all possible words - where all the words are located in index that correspond to the ASCII value of their first character.
     - tally = An array of integers, where each integer represents the number of unused words for a specific character that the words start with.
-    - prev = The previous word that was played.
+    - previousWord = The previous word that was played.
     - difficulty = The difficulty level of the bot.
-    - word = A pointer to a string where the bot's next word will be stored. 
+    - currentWord = A pointer to a string where the bot's next word will be stored. 
 
 The function works as follows:
 
@@ -40,11 +40,15 @@ Otherwise, the bot does the following:
     If the difficulty level is greater than 1, the bot recursively calls the playBot() function to evaluate each of the remaining options. It does this by playing the current word and then simulating the opponent's response.
     The bot then chooses the option that leads to the best outcome.
     If the bot cannot find a word with a positive tally, it returns -1 to indicate that it has lost. Otherwise, it returns 0.
+    It re-increments the tally to restore it.
+
+
 
 Testing Our Bot:
 
 After we've proved the correctness of our function (bot) through specifications and systematic testing on the partitioned domain, we wanted to see how
-well it would perform against a random bot. In other words, to what extent our bot would outperfom the random bot. These are the results we got:
+well it would perform against a random bot. In other words, to what extent our bot would outperfom the random bot. The testing was done using testingBot.c.
+These are the results we got:
 
 After 10,000 games (using the spells.txt file)
 - Difficulty 3 had a 97.69% win rate

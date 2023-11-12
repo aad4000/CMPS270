@@ -1,3 +1,9 @@
+/*
+This is for testing the bots of different difficulties against the random bot
+to validate that they perform better than random.
+The results of our tests are at the end of the report.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
