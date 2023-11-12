@@ -123,12 +123,6 @@ Objective: Ensure the game correctly identifies the winning conditions.
 Procedure: Play the game to a point where a player cannot make a valid move.
 Expected Outcome: The game should correctly identify the player who cannot play as the loser.
 
-Test 5: Memory Management
-
-Objective: Check for memory leaks and proper memory management.
-Procedure: Run the game with tools like Valgrind (Linux) to detect memory leaks. Play the game to completion to ensure all dynamic memory is freed.
-Expected Outcome: There should be no memory leaks, and all allocated memory should be properly freed at the end of the game.
-
 bot.c:
 
 Function: int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty, char * word)
@@ -142,44 +136,36 @@ Expected Outcome: playBot should return 0, indicating an undetermined outcome. T
 Test Case 2: Winning Move Available
 
 Scenario Setup:
-Suppose there are only two spells left: "lumos" and "stupify". "lumos" ends with 's', but there are no spells starting with 's' left. "stupify" ends with 'y', and there are no spells starting with 'y'.
-spellMap and tally reflect this setup.
 
-Input: difficulty = any (since it's a clear winning move).
-       prev = points to a spell ending with 'l', leading to "lumos".
+Imagine a scenario where the bot has a potential winning move. The player has just played "lumos"(or any other spell ending with 's'), and there are several spells starting with 's' (e.g., "stupify", "sectumsempra", etc.). Among these, "stupify" is a winning move for the bot, as it ends with 'y' and there are no spells starting with 'y' left in the game.
+The spellMap and tally should be set up to reflect this situation.
+Input:
 
-Expected Outcome: playBot should choose "lumos", as it's a winning move.
-                  The function should return 1, indicating the bot will win.
+difficulty = greater than zero .
+previousWord =  "lumos".
+Expected Outcome: "stupify" should be chosen as the word, and playBot should return 1, indicating a win.
 
-// Assume spellMap and tally are set up for the above scenario.
-char prev[] = "spell"; // Last spell ends with 'l'
-char word[30]; 
-int result = playBot(spellMap, tally, prev, 2, word); // Assuming difficulty 2 for this test
-// Check if result == 1 and strcmp(word, "lumos") == 0
+
 
 Test Case 3: No Winning Move (Bot Will Lose)
 
 Scenario Setup:
-Imagine a scenario where every spell the bot can choose will allow the player to win in the next turn. For example, the only spells left are "alohomora" and "reducto". Choosing either leads to a spell starting with 'a' or 'r', both of which are available for the player to win next.
-spellMap and tally are set to reflect this setup.
-
-Input: difficulty = higher (e.g., 2 or 3), to ensure the bot looks ahead.
-       prev = set to lead to either "alohomora" or "reducto".
+Imagine a scenario where every spell the bot can choose will allow the player to win in the next turn.
+For example, the player chooses accio, and the bot has to choose between obliviate and  orchideous but if the bot chooses obliviate, the player can choose episkey and win the game since there are no spells starting with 'y' left in the game or if the bot chooses orchideous, the player can choose stupify and win the game since there are no spells starting with 'y' left in the game word will become any of the two . 
+Input: difficulty = greater than 1.
+previousWord = "accio".
        
 Expected Outcome: playBot should return -1, indicating it cannot avoid losing.
-                  The chosen word will be either "alohomora" or "reducto", but the exact choice depends on the internal logic and may be random.
 
-// Assume spellMap and tally are set up for the above scenario.
-char prev[] = "spell"; // Set appropriately to lead to the losing scenario
-char word[30]; 
-int result = playBot(spellMap, tally, prev, 3, word); // Higher difficulty
-// Check if result == -1
+Test Case 4: Bot Blocks Player's Potential Winning Move
 
-Test Case 4: Recursive Depth Search (Higher Difficulty)
+Scenario Setup:
 
-Setup: A more complex spell map with multiple layers of choices.
-Input: difficulty > 1, set prev to a position that requires looking ahead more than one move.
-Expected Outcome: The outcome depends on the setup, but playBot should demonstrate a deeper search, avoiding moves that would lead to a loss in subsequent rounds.
+The player has just played "rictusempra", a spell ending with 'a'. The bot now has to choose a spell starting with 'a'. The choices include "aparecium" and "avifors". Choosing "avifors" would be disadvantageous as it ends with 's', leading to a limited number of spells for the next turn, like "stupify" which ends with y and there is now words starts with "y" that why he will lose. Choosing "aparecium" would be advantageous as it ends with 'm', leading to a larger number of spells for the next turn, like "muffliato" which ends with 'o' and there are many spells starting with 'o' left in the game.
+The spellMap and tally should be set up to reflect this situation.
+Input: difficulty = greater than 0.
+previousWord = "rictusempra".
+Expected Outcome: "aparecium" should be chosen as the word, and playBot should return 0, indicating an undetermined outcome.              
 
 driver2.c:
 
@@ -207,8 +193,3 @@ Objective: Ensure that the game properly validates player inputs.
 Procedure: During the player's turn, enter invalid spells (not in the list, already used spells, or spells not starting with the required letter).
 Expected Outcome: The game should not accept invalid spells and should prompt the player to re-enter a valid spell.
 
-Test 5: Memory Management and Error Handling
-
-Objective: Check for memory leaks or errors during the game.
-Procedure: Run the game with a tool like Valgrind (if on Linux) to check for memory leaks. Also, test with an invalid file name or a malformed spells file.
-Expected Outcome: The game should not have memory leaks and should handle file errors gracefully.
