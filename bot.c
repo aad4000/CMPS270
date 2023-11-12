@@ -20,7 +20,6 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
 
         int r = rand();
         r = r % (tally[index]);
-        printf("%d %d\n", tally[index], r);
         struct Spell *current = spellMap[index];
         int i = 0;
         while(current->used == 1){ //skip the used words in the beginning (for the case r = 0)
@@ -34,7 +33,7 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
         strcpy(word, current->name);
         return 0;
     }
-    tally[prev[strlen(prev) - 1]]--; //because we know the word to be played will start with this character
+    tally[prev[strlen(prev) - 1]-'a']--; //because we know the word to be played will start with this character
 
     struct Option options[26]; //we will have at most 26 words to choose from, each ending with a different character
     for(int i = 0; i < 26; i++)
@@ -47,7 +46,7 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
             char lastCharacter = current->last;
             int index2 = lastCharacter - 'a';
             if(tally[index2] == 0){
-                tally[prev[strlen(prev) - 1]]++; //will be re-updated in isLegal
+                tally[prev[strlen(prev) - 1]-'a']++; //will be re-updated in isLegal
                 strcpy(word, current->name);
                 return 1;
             }
@@ -101,17 +100,21 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
                         canLose = 1;
                         break;
                     }
+                    // Here, we can add a boolean to see if all the options of the opponent will certainly lead him to lose, 
+                    // then we would choose this option immediately
+                    // However, we will have to add all non-immediate wins to a new list of options, 
+                    // and choose randomly from that new list in case there are no immediate-wins.
                 }
             }
             current = current->next;
         }    
         if(canLose == 0){
-            tally[prev[strlen(prev) - 1]]++; //will be re-updated in isLegal
+            tally[prev[strlen(prev) - 1]-'a']++; //will be re-updated in isLegal
             strcpy(word, optionsSorted[i].word);
             return 0;
         }
     }
-    tally[prev[strlen(prev) - 1]]++; //will be re-updated in isLegal
+    tally[prev[strlen(prev) - 1]-'a']++; //will be re-updated in isLegal
     playBot(spellMap, tally, prev, difficulty -1, word); // to choose some word (although we already know we are lost)
     return -1; //bot cannot win.
 }

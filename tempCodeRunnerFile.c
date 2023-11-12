@@ -8,7 +8,7 @@
 int main(){
 
     printf("Enter difficulty (0: random, 1: easy, 2: medium, 3: hard): ");
-    int DIFFICULTY = 0; //0 is random, 1 is easy, 2 is medium, 3 is hard, ...
+    int DIFFICULTY = 3; //0 is random, 1 is easy, 2 is medium, 3 is hard, ...
     scanf("%d", &DIFFICULTY);
 
     char player1 [20];
@@ -31,7 +31,7 @@ int main(){
 
     srand(time(NULL));
     int coin = rand()%2; // 0 for player 1, and 1 for player 2 (bot)
-    coin = 1;
+    
     int c = 0; //counter for how many turns have been played
     char * prev = (char *) malloc(30 * sizeof(char)); //assuming 30 is largest 
 
@@ -66,7 +66,7 @@ int main(){
             }
             else{
                 for(char i = 'a'; i <= 'z'; i++){
-                    if(tally[i-'a'] != 0){
+                    if(tally[i] != 0){
                         if(playBot(spellMap, tally, &i, DIFFICULTY, word) != -1){ //choose a word which does not make you lose 
                             printf("%s\n", word);
                             break;
