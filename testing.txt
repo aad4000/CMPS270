@@ -2,31 +2,31 @@ The strategies we used for testing the following functions where: Systematic Tes
 
 #checking.c
 
-Function: int canPlay(int tally[], char *last);
+Function: int canPlay(int tally[], char *previousWord);
 
-Test Case 1: Last character of <last> is between 'a' and 'z' and tally is filled with all zeros
+Test Case 1: Last character of <previousWord> is between 'a' and 'z' and tally is filled with all zeros
 
-Input: tally = [0, 0, ..., 0], last = "easy"
+Input: tally = [0, 0, ..., 0], previousWord = "easy"
 Expected Outcome: returns 0
 
-Test Case 2: Last character of <last> is 'a' and tally is filled with all non-negative integers (Edge Case)
+Test Case 2: Last character of <previousWord> is 'a' and tally is filled with all non-negative integers (Edge Case)
 
-Input: tally = [1, 2, ..., 26], last = "a"
+Input: tally = [1, 2, ..., 26], previousWord = "a"
 Expected Outcome: returns 1
 
-Test Case 3: Last character of <last> is 'z' and tally is filled with all non-negative integers (Edge Case)
+Test Case 3: Last character of <previousWord> is 'z' and tally is filled with all non-negative integers (Edge Case)
 
 Input: tally = [1, 2, ..., 26], last = "z"
 Expected Outcome: returns 1
 
-Function: int isLegal(struct Spell *spellMap[], int tally[], char *last, char *played, int round);
+Function: int isLegal(struct Spell *spellMap[], int tally[], char *previousWord, char *currentWord, int round);
 
 Test Case 1: Valid Play
 
 Input: spellMap = an array with valid spell entries.
        tally = an array with non-zero frequencies for all characters.
-       last = a string with 'a' as the last character.
-       played = a string starting with 'a'.
+       previousWord = a string with 'a' as the last character.
+       currentWord = a string starting with 'a'.
        round = 1
 Expected Outcome: The function should return 1, indicating a successful and legal play.
 
@@ -35,8 +35,8 @@ Test Case 2: Invalid First Letter Mismatch
 Input:
       spellMap = an array with valid spell entries.
       tally = an array with non-zero frequencies for all characters.
-      last = a string with 'a' as the last character.
-      played = a string ending with 'l'. 
+      previousWord = a string with 'a' as the last character.
+      currentWord = a string ending with 'l'. 
       round = 1
 Expected Outcome: The function should return -1, indicating an invalid play due to the first letter mismatch.
 
@@ -44,8 +44,8 @@ Test Case 3: Invalid Spell Not in List
 
 Input: spellMap = an array with valid spell entries.
        tally = an array with non-zero frequencies for all characters.
-       last = a string with 'b' as the last character.
-       played = a string that is not present in spallMap.
+       previousWord = a string with 'b' as the last character.
+       currentWord = a string that is not present in spallMap.
        round = 1
 Expected Outcome: The function should return -2, indicating an invalid play because the spell is not in the list.
 
@@ -53,8 +53,8 @@ Test Case 4: Invalid Repeat Spell
 
 Input: spellMap = an array with valid spell entries.
        tally = an array with non-zero frequencies for all characters.
-       last = a string played in round 1. (ex: "accio")
-       played = a string "accio"
+       previousWord = a string played in round 1. (ex: "accio")
+       currentWord = a string "accio"
        round = 2
 Expected Outcome: The function should return -3, indicating an invalid play because the spell was previously used.
 
@@ -97,8 +97,8 @@ Setup: Create a file named "multiple_spells.txt" with multiple spells.
 Input File Content: 5\naccio\nalohomora\nexpelliarmus\nlumos\nwingardiumLeviosa\n
 Expected Outcome: spellMap should have non-NULL entries at indices corresponding to 'a', 'e', 'l', 'w', and tally should reflect the correct counts for these starting letters.
 
-driver.c:
 
+<<<<<<< HEAD
 Test 1: Proper Initialization and Reading from File
 
 Objective: Ensure that spells are correctly read from the file and that the spellMap and tally are properly initialized.
@@ -122,10 +122,12 @@ Test 4: Winning Conditions
 Objective: Ensure the game correctly identifies the winning conditions.
 Procedure: Play the game to a point where a player cannot make a valid move.
 Expected Outcome: The game should correctly identify the player who cannot play as the loser.
+=======
+>>>>>>> 50b26fa0b7681ca3f7a21fb102d7c6d58b9ddede
 
 bot.c:
 
-Function: int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty, char * word)
+Function: int playBot(struct Spell * spellMap[], int tally[], char * previousWord, int difficulty, char * currentWord)
 
 Test Case 1: Difficulty Level 0 (Random Choice)
 
@@ -137,6 +139,7 @@ Test Case 2: Winning Move Available
 
 Scenario Setup:
 
+<<<<<<< HEAD
 Imagine a scenario where the bot has a potential winning move. The player has just played "lumos"(or any other spell ending with 's'), and there are several spells starting with 's' (e.g., "stupify", "sectumsempra", etc.). Among these, "stupify" is a winning move for the bot, as it ends with 'y' and there are no spells starting with 'y' left in the game.
 The spellMap and tally should be set up to reflect this situation.
 Input:
@@ -144,6 +147,10 @@ Input:
 difficulty = greater than zero .
 previousWord =  "lumos".
 Expected Outcome: "stupify" should be chosen as the word, and playBot should return 1, indicating a win.
+=======
+Input: difficulty > 0 (since it's a clear winning move).
+       prev = points to a spell ending with 'l', leading to "lumos".
+>>>>>>> 50b26fa0b7681ca3f7a21fb102d7c6d58b9ddede
 
 
 
@@ -166,6 +173,7 @@ The spellMap and tally should be set up to reflect this situation.
 Input: difficulty = greater than 0.
 previousWord = "rictusempra".
 Expected Outcome: "aparecium" should be chosen as the word, and playBot should return 0, indicating an undetermined outcome.              
+
 
 driver2.c:
 
