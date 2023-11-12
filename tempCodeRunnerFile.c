@@ -32,8 +32,8 @@ int main(){
     srand(time(NULL));
     int coin = rand()%2; // 0 for player 1, and 1 for player 2 (bot)
     
-    int c = 0; //counter for how many turns have been played
-    char * prev = (char *) malloc(30 * sizeof(char)); //assuming 30 is largest 
+    int c = 0; //counter for how many turns have been played                                                //ARTHUR'S COMMENT: change the name for "c" as it seems a bit unclear, maybe put "c" as "turnCounter" or something like that
+    char * prev = (char *) malloc(30 * sizeof(char)); //assuming 30 is largest                              //ARTHUR'S COMMENT: change the name for "prev" as it seems a bit unclear, maybe put "prev" as "previousWord" or something like that
 
     while(1){
         int turn = ((c + coin) % 2); //calculates whose turn it is: 0 for player 1, 1 for player 2.
@@ -53,7 +53,7 @@ int main(){
             break;
         }
 
-        char word [30]; //again, assuming longest word is of 30 characters
+        char word [30]; //again, assuming longest word is of 30 characters                                                      //ARTHUR'S COMMENT: change the name for "word" as it seems a bit unclear, maybe put "word" as "currentWord" or something like that
         if(turn == 0){
             printf("\n%s's turn. Enter a spell: ", player1);
             scanf("%s", word);
@@ -76,7 +76,7 @@ int main(){
             }            
         }
 
-        int t = isLegal(spellMap, tally, prev, word, c);
+        int t = isLegal(spellMap, tally, prev, word, c);                                                    //ARTHUR'S COMMENT: change the name for "t" as it seems a bit unclear, maybe put "t" as "isLegalReturn" or something like that
         if(t < 0){
             //Player loses for one of 3 reasons according to return value
             char * winner, *loser;

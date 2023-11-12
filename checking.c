@@ -5,7 +5,7 @@
 
 // returns 1 if player has at least one spell he can play
 // returns 0 if the player is out of options (loses)
-int canPlay(struct Spell * spellMap[], int tally[], char * last) {
+int canPlay(struct Spell * spellMap[], int tally[], char * last) {                                                //ARTHUR'S COMMENT: change the name for "last" as it seems a bit unclear, maybe put "last" as "previousWord" or something like that
     int index = last[strlen(last)-1] - 'a';
 
     if (tally[index] > 0) //there are still available words starting with the desired letter.
@@ -23,7 +23,7 @@ int canPlay(struct Spell * spellMap[], int tally[], char * last) {
 //      return -2 if        condition (2) was not satisfied
 //      return -3 if        condition (3) was not satisfied
 // if spell is legal, set used to 1 (true), and update tally
-int isLegal(struct Spell * spellMap[], int tally[], char * last, char * played, int round) {
+int isLegal(struct Spell * spellMap[], int tally[], char * last, char * played, int round) {                       //ARTHUR'S COMMENT: change the name for "last" and "played"; maybe put "last" as "previousWord" and "played" as "currentWord" or something like that
     if(round != 0)
         if (last != NULL && played[0] != last[strlen(last) - 1]) { //check if letters match
             return -1;  

@@ -21,7 +21,7 @@ void addToMap(struct Spell * spellMap[], struct Spell *node){
 void readSpells(struct Spell * spellMap[], int tally[], const char * filename){
     FILE *file = fopen(filename, "r");
     
-    int n;
+    int n;                                                                                          //ARTHUR'S COMMENT: change the name for "n" as it seems a bit unclear, maybe put "n" as "numberOfSpells" or something like that
     fscanf(file, "%d", &n);
     
     for(int i = 0; i < n; i++){

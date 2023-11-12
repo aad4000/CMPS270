@@ -14,14 +14,14 @@ struct Option{
 // -1 if bot will lose
 // 1 if bot will win
 // 0 if undetermined
-int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty, char * word){
+int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty, char * word){       //ARTHUR'S COMMENT: change the name for "prev" and "word" as it seems a bit unclear, maybe put "prev" as "previousWord" and "word" as "currentWord" or something like that
     if(difficulty == 0){ //return randomly
         int index = prev[strlen(prev) - 1] - 'a';
 
-        int r = rand();
+        int r = rand();                                                                           //ARTHUR'S COMMENT: change the name for "r" as it seems a bit unclear, maybe put "r" as "randomNumber" or something like that
         r = r % (tally[index]);
         struct Spell *current = spellMap[index];
-        int i = 0;
+        int i = 0;                                                                                
         while(current->used == 1){ //skip the used words in the beginning (for the case r = 0)
             current = current->next;
         }
