@@ -5,7 +5,7 @@
 
 // returns 1 if player has at least one spell he can play
 // returns 0 if the player is out of options (loses)
-int canPlay(struct Spell * spellMap[], int tally[], char * last) {                                                //ARTHUR'S COMMENT: change the name for "last" as it seems a bit unclear, maybe put "last" as "previousWord" or something like that
+int canPlay(int tally[], char * last) {                                                //ARTHUR'S COMMENT: change the name for "last" as it seems a bit unclear, maybe put "last" as "previousWord" or something like that
     int index = last[strlen(last)-1] - 'a';
 
     if (tally[index] > 0) //there are still available words starting with the desired letter.

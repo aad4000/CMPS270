@@ -31,14 +31,13 @@ int main(){
 
     srand(time(NULL));
     int coin = rand()%2; // 0 for player 1, and 1 for player 2 (bot)
-    coin = 1;
     int c = 0; //counter for how many turns have been played                                                  //ARTHUR'S COMMENT: change the name for "c" as it seems a bit unclear, maybe put "c" as "turnCounter" or something like that
     char * prev = (char *) malloc(30 * sizeof(char)); //assuming 30 is largest 
 
     while(1){
         int turn = ((c + coin) % 2); //calculates whose turn it is: 0 for player 1, 1 for player 2.
 
-        if(!canPlay(spellMap, tally, prev) && c!=0){
+        if(!canPlay(tally, prev) && c!=0){
             //Player loses because he has no more possible moves.
             char * winner, *loser;
             if(turn == 0){
@@ -67,12 +66,14 @@ int main(){
             else{
                 for(char i = 'a'; i <= 'z'; i++){
                     if(tally[i-'a'] != 0){
-                        if(playBot(spellMap, tally, &i, DIFFICULTY, word) != -1){ //choose a word which does not make you lose 
+                        char strOfi[] = {i, '\0'}; //string version of i, consisting of the character itself only
+                        if(playBot(spellMap, tally, strOfi, DIFFICULTY, word) != -1){ //choose a word which does not make you lose 
                             printf("%s\n", word);
                             break;
                         }
                     }
                 }
+                                
             }            
         }
 

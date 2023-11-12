@@ -13,7 +13,7 @@ struct Spell {
 // Function prototypes
 void addToMap(struct Spell *spellMap[], struct Spell *node);
 void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
-int canPlay(struct Spell *spellMap[], int tally[], char *prev);
-int isLegal(struct Spell *spellMap[], int tally[], char *prev, char *word, int round);
+int canPlay(int tally[], char *previousWord);
+int isLegal(struct Spell *spellMap[], int tally[], char *previousWord, char *currentWord, int round);
 
 #endif // SPELLMAP_H
