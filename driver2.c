@@ -31,13 +31,13 @@ int main(){
 
     srand(time(NULL));
     int coin = rand()%2; // 0 for player 1, and 1 for player 2 (bot)
-    int c = 0; //counter for how many turns have been played                                                  //ARTHUR'S COMMENT: change the name for "c" as it seems a bit unclear, maybe put "c" as "turnCounter" or something like that
+    int turnCounter = 0; //counter for how many turns have been played                                                  
     char * prev = (char *) malloc(30 * sizeof(char)); //assuming 30 is largest 
 
     while(1){
-        int turn = ((c + coin) % 2); //calculates whose turn it is: 0 for player 1, 1 for player 2.
+        int turn = ((turnCounter + coin) % 2); //calculates whose turn it is: 0 for player 1, 1 for player 2.
 
-        if(!canPlay(tally, prev) && c!=0){
+        if(!canPlay(tally, prev) && turnCounter!=0){
             //Player loses because he has no more possible moves.
             char * winner, *loser;
             if(turn == 0){
@@ -59,7 +59,7 @@ int main(){
         }
         else {
             printf("\nBot's turn. Spell used: ");
-            if(c > 0){
+            if(turnCounter > 0){
                 playBot(spellMap, tally, prev, DIFFICULTY, word);
                 printf("%s\n", word);
             }
@@ -77,8 +77,8 @@ int main(){
             }            
         }
 
-        int t = isLegal(spellMap, tally, prev, word, c);                                           //ARTHUR'S COMMENT: change the name of t to something more meaningful, maybe "isLegalResult" or something like that
-        if(t < 0){
+        int isLegalResult = isLegal(spellMap, tally, prev, word, turnCounter);                                           
+        if(isLegalResult < 0){
             //Player loses for one of 3 reasons according to return value
             char * winner, *loser;
             if(turn == 0){
@@ -90,9 +90,9 @@ int main(){
                 loser = "Bot";
             }
 
-            if(t == -1)
+            if(isLegalResult == -1)
                 printf("\n%s lost because the first letter does not match the last letter of the previous spell.\n%s is the winner!", loser, winner);
-            else if(t == -2)
+            else if(isLegalResult == -2)
                 printf("\n%s lost because the spell used is not on the list.\n%s is the winner!", loser, winner);
             else 
                 printf("\n%s lost because the spelled used was previously used.\n%s is the winner!", loser, winner);
@@ -101,7 +101,7 @@ int main(){
         }
 
         strcpy(prev, word); //store copy of word in prev to check conditions next turn
-        c++;
+        turnCounter++;
     }
 
 

@@ -25,7 +25,7 @@ effects: Adds the Spell at the index (calculated based on the first letter of th
 void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
 requires: spellMap and tally should be arrays of size 26.
           filename pointer should point to a string that is a valid name of a file in the directory.
-effects: Reads through the file, creating a struct Spell instance for every word encountered, initializes its fields, increments the tally array accordingly, and adds it to spellMap.
+effects: Reads through the file, creating a struct Spell instance for every word encountered, initializes its fields, increments the tally array accordingly, and adds it to spellMap (having in each entry a linkedlist of the spells starting with the same letter, indexed alphabetically).
 
 #bot.c
 
@@ -35,9 +35,11 @@ requires: spellMap should be pointing to an array of Spell structures with size 
           previousWord should be pointing to the first character of a non-NULL string.
           currentWord should be pointing to a memory that has enough space to store the selected word.
           difficulty is a non-negative integer.
-effects: Chooses a word for the bot to play based on the provided parameters. 
-         Updates the tally array and modifies currentWord with the selected word.
-         Returns 0 if the bot successfully selects a word, -1 if the bot cannot win (or in other words, cannot choose anotherword).
+effects: Chooses a word for the bot to play based on the provided parameters.
+         Updates currentWord with the selected word (when d>0, choosing a winning move if one is available, and blocking the opponent from winning on the next round, if he is able to)
+         Returns 1 if the bot selects a winning word, -1 if the bot can losse (if the opponent plays correctly), and 0 if the outcome is undetermined.
+         if difficulty is 0, the word is selected randomly
+                          d > 0, the word is selected by looking d steps ahead
 
 #driver2.c
 

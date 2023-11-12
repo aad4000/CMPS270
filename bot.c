@@ -11,35 +11,33 @@ struct Option{
     int taken; //whether it has been used or not in the array
 };
 
-// -1 if bot will lose
-// 1 if bot will win
-// 0 if undetermined
-int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty, char * word){
-    if(difficulty == 0){ //return randomly
-        int index = prev[strlen(prev) - 1] - 'a';
 
-        int r = rand();
-        r = r % (tally[index]);
+int playBot(struct Spell * spellMap[], int tally[], char * previousWord, int difficulty, char * currentWord){
+    if(difficulty == 0){ //return randomly
+        int index = previousWord[strlen(previousWord) - 1] - 'a';
+
+        int randomNumber = rand();
+        randomNumber = randomNumber % (tally[index]);
         struct Spell *current = spellMap[index];
         int i = 0;
         while(current->used == 1){ //skip the used words in the beginning (for the case r = 0)
             current = current->next;
         }
-        while(i != r){
+        while(i != randomNumber){
             if(current->used != 1) //don't count the unavailable words
                 i++;
             current = current->next;
         }        
-        strcpy(word, current->name);
+        strcpy(currentWord, current->name);
         return 0;
     }
-    tally[prev[strlen(prev) - 1]-'a']--; //because we know the word to be played will start with this character
+    tally[previousWord[strlen(previousWord) - 1]-'a']--; //because we know the word to be played will start with this character
 
     struct Option options[26]; //we will have at most 26 words to choose from, each ending with a different character
     for(int i = 0; i < 26; i++)
         options[i].taken = 0;
 
-    int index = prev[strlen(prev) - 1] - 'a';
+    int index = previousWord[strlen(previousWord) - 1] - 'a';
     struct Spell *current = spellMap[index];
     while(current != NULL){
         if(current->used == 0){ //skip if word is not an option (cannot be played because was already played before)
@@ -48,8 +46,8 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
 
             if(tally[index2] == 0){
 
-                tally[prev[strlen(prev) - 1]-'a']++; //will be re-updated in isLegal
-                strcpy(word, current->name);
+                tally[previousWord[strlen(previousWord) - 1]-'a']++; //will be re-updated in isLegal
+                strcpy(currentWord, current->name);
                 return 1;
             }
             else{
@@ -98,7 +96,7 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
                     break;
                 }
                 if(difficulty > 1){
-                    if(playBot(spellMap, tally, current->name, difficulty-1, word) == -1){ //if i am forced to resign when opponent plays this word, then i should not alow him to play it
+                    if(playBot(spellMap, tally, current->name, difficulty-1, currentWord) == -1){ //if i am forced to resign when opponent plays this word, then i should not alow him to play it
                         canLose = 1;
                         break;
                     }
@@ -108,14 +106,14 @@ int playBot(struct Spell * spellMap[], int tally[], char * prev, int difficulty,
         }    
         if(canLose == 0){
             
-            tally[prev[strlen(prev) - 1]-'a']++; //will be re-updated in isLegal
-            strcpy(word, optionsSorted[i].word);
+            tally[previousWord[strlen(previousWord) - 1]-'a']++; //will be re-updated in isLegal
+            strcpy(currentWord, optionsSorted[i].word);
             return 0;
         }
     }
 
-    tally[prev[strlen(prev) - 1]-'a']++; //will be re-updated in isLegal
-    playBot(spellMap, tally, prev, difficulty -1, word); // to choose some word (although we already know we are lost)
+    tally[previousWord[strlen(previousWord) - 1]-'a']++; //will be re-updated in isLegal
+    playBot(spellMap, tally, previousWord, difficulty -1, currentWord); // to choose some word (although we already know we are lost)
 
     return -1; //bot cannot win.
 }
