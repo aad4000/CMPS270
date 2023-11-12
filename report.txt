@@ -23,7 +23,7 @@ Here is a more detailed explanation of how the code works:
 The function playBot() takes the following arguments:
 
     - spellMap = An array of all possible words - where all the words are located in index that correspond to the ASCII value of their first character.
-    - tally = An array of integers, where each integer represents the number of unused words that end in the corresponding letter.
+    - tally = An array of integers, where each integer represents the number of unused words for a specific character that the words start with.
     - prev = The previous word that was played.
     - difficulty = The difficulty level of the bot.
     - word = A pointer to a string where the bot's next word will be stored. 
