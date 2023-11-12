@@ -2,7 +2,8 @@ Bot Strategy Report
 
 Introduction:
 
-We have designed our bot to include 4 levels of difficulty; which all differ from each other in the implementation.
+We have designed our bot to include 4 levels of difficulty: Random, Easy, Medium, and Hard.
+All of these difficulties have different implementations however, the latter 3 have similar underlying strategies behind their algorithms.
 The core strategies we used are as follows:
 
     - Greedy search: The code first tries to find a word that ends in the last letter of the previous word and that has the highest possible tally of unused words. 
@@ -13,9 +14,9 @@ The core strategies we used are as follows:
 
 The code also uses a few other intricacies to improve its performance, such as:
 
-    - Sorting the options by tally: This ensures that the code considers the best options first.
-    - Avoiding words that have already been used: This prevents the code from choosing a word that the opponent has already played.
-    - Checking for immediate losses: The code checks if any of the opponent's possible moves would result in an immediate loss for the bot. If so, the bot avoids playing the word that would lead to that loss.
+    - Sorting the options by tally => This ensures that the code considers the best options first.
+    - Avoiding words that have already been used => This prevents the code from choosing a word that the opponent has already played.
+    - Checking for immediate losses => The code checks if any of the opponent's possible moves would result in an immediate loss for the bot. If so, the bot avoids playing the word that would lead to that loss.
 
 Here is a more detailed explanation of how the code works:
 
@@ -25,7 +26,7 @@ The function playBot() takes the following arguments:
     - tally = An array of integers, where each integer represents the number of unused words that end in the corresponding letter.
     - prev = The previous word that was played.
     - difficulty = The difficulty level of the bot.
-    - word = A pointer to a string where the bot's next word will be stored.
+    - word = A pointer to a string where the bot's next word will be stored. 
 
 The function works as follows:
 
