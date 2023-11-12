@@ -26,3 +26,24 @@ void readSpells(struct Spell *spellMap[], int tally[], const char *filename);
 requires: spellMap and tally should be arrays of size 26.
           filename pointer should point to a string that is a valid name of a file in the directory.
 effects: Reads through the file, creating a struct Spell instance for every word encountered, initializes its fields, increments the tally array accordingly, and adds it to spellMap.
+
+#bot.c
+
+int playBot(struct Spell *spellMap[], int tally[], char *previousWord, int difficulty, char *currentWord);
+requires: spellMap should be pointing to an array of Spell structures with size 26.
+          tally shoulb be pointing to an array of size 26 of non-negative integers. 
+          previousWord should be pointing to the first character of a non-NULL string.
+          currentWord should be pointing to a memory that has enough space to store the selected word.
+          difficulty is a non-negative integer.
+effects: Chooses a word for the bot to play based on the provided parameters. 
+         Updates the tally array and modifies currentWord with the selected word.
+         Returns 0 if the bot successfully selects a word, -1 if the bot cannot win (or in other words, cannot choose anotherword).
+
+#driver2.c
+
+int main();
+requires "spellmap.c", "bot.c", and "checking.c" are included for declarations.
+         "spells.txt" file exists with a list of spells.
+effects: Initializes the game, reads spells from a file, and manages turns between the player and bot.
+         Prints game results when a player loses or there are no more possible moves.
+         Returns 0 upon successful completion of the game.
